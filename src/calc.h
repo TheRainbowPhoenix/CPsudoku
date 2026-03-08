@@ -9,10 +9,11 @@
 	extern SDL_Renderer *renderer;
 	extern SDL_Texture *texture;
 #else
-	#include <sdk/os/debug.hpp> //This contains stdint (uint32_t and so on)
-	#include <sdk/os/lcd.hpp>
-	#include <appdef.hpp>
-	extern "C" void getKey(uint32_t *key1, uint32_t *key2);
+	#include <sdk/os/debug.h> //This contains stdint (uint32_t and so on)
+	#include <sdk/os/lcd.h>
+	#include <sdk/os/input.h>
+	#include <appdef.h>
+	//extern "C" void getKey(uint32_t *key1, uint32_t *key2);
 	extern uint16_t *vram;
 	extern uint8_t debugprintline;
 #endif

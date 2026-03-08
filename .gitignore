@@ -1,10 +1,11 @@
-# Compiled files
-*.o
-*.hhk
+dist/
+obj/
+.cache/
+.deps/
+compile_commands.json
 *.bin
 *.elf
-# Temp files
+*.hh3
+*.map
 *~
 .*~
-# Backup files
-*_back*

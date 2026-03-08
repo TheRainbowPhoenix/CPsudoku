@@ -1,6 +1,6 @@
-#include "calc.hpp"
+#include "calc.h"
 
-extern void main2(); //in file main.cpp
+extern void main2();
 
 //Global variables
 #ifdef PC
@@ -17,11 +17,11 @@ extern int height;
 #endif
 
 
-extern "C"
+
 #ifdef PC
 int  main(){
 #else
-void main(){
+int main(){
 #endif
 	//Initialisation
 	#ifdef PC
@@ -36,20 +36,25 @@ void main(){
 	#else
 		vram = LCD_GetVRAMAddress();
 		LCD_GetSize(&width, &height);
-		LCD_VRAMBackup(); //Stores the VRAM content
+
 	#endif
 
 	//The actual program
 	main2();
+
 
 	//Stopping everything
 	#ifdef PC
 		SDL_DestroyWindow(win);
 		SDL_Quit();
 	#else
-		LCD_VRAMRestore(); //Restores the VRAM content
+
 		LCD_Refresh();
+
+
+
 	#endif
+	return 0;
 }
 
 //println is printf for up to 4 arguments
@@ -64,11 +69,12 @@ void println(const char str[],int a,int b,int c,int d){
 #else
 	Debug_Printf(0,debugprintline++,false,0,str,a,b,c,d);
 	LCD_Refresh();
+
 	if(debugprintline>42) debugprintline=0;
 #endif
 }
 
-//Define LCD_Refresh for the pc (for the calc this is in debug.hpp)
+//Define LCD_Refresh for the pc (for the calc this is in debug.h)
 #ifdef PC
 void LCD_Refresh(){
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
