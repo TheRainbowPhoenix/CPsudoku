@@ -7,13 +7,13 @@ extern void main2();
 	SDL_Window *win;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
-int width;
-int height;
+uint32_t width;
+uint32_t height;
 #else
 extern	uint16_t *vram;
 	uint8_t debugprintline = 0;
-extern int width;
-extern int height;
+extern uint32_t width;
+extern uint32_t height;
 #endif
 
 

@@ -2,7 +2,7 @@
 
 #ifndef PC
 	APP_NAME("CPsudoku")
-	APP_DESCRIPTION("Sudoku game & solver. To start a new game: Random > 75\% > Set (Use 'Keyboard' to go to the menu)")
+	APP_DESCRIPTION("Sudoku game & solver. To start a new game: Random > 75% > Set (Use 'Keyboard' to go to the menu)")
 	APP_AUTHOR("SnailMath")
 	APP_VERSION("1.0.1")
 #endif
@@ -438,8 +438,8 @@ void main2(){
 		sudoku_draw();
 
 		int key_code = 0;
-		if (GetInput(&event, 0, 0x10) == 0 && event.type == EVENT_KEY_DOWN) {
-			key_code = event.key_down_up.key_code;
+		if (GetInput(&event, 0, 0x10) == 0 && event.type == EVENT_KEY && event.key.direction == KEY_PRESSED) {
+			key_code = event.key.keyCode;
 		} else {
 			continue;
 		}

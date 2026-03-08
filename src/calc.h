@@ -18,8 +18,8 @@
 	extern uint8_t debugprintline;
 #endif
 
-extern int width;
-extern int height;
+extern uint32_t width;
+extern uint32_t height;
 
 void println(const char str[]                        );
 void println(const char str[],int a                  );
