@@ -10,10 +10,10 @@ extern void main2();
 uint32_t width;
 uint32_t height;
 #else
-extern	uint16_t *vram;
+uint16_t *vram;
 	uint8_t debugprintline = 0;
-extern uint32_t width;
-extern uint32_t height;
+uint32_t width;
+uint32_t height;
 #endif
 
 

@@ -42,7 +42,7 @@ inline uint16_t color(uint8_t R, uint8_t G, uint8_t B){
 			((B>>3) & 0b0000000000011111));
 }
 inline void setPixel(int x,int y, uint32_t color){
-	if(x>=0 && x < width && y>=0 && y < height){
+	if(x>=0 && (uint32_t)x < width && y>=0 && (uint32_t)y < height){
 	#ifdef PC
 		unsigned char pixels[4]; // { A, B, G, R }
 		//Convert 565 colors to RGBA

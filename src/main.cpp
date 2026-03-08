@@ -438,8 +438,8 @@ void main2(){
 		sudoku_draw();
 
 		int key_code = 0;
-		if (GetInput(&event, 0, 0x10) == 0 && event.type == EVENT_KEY && event.key.direction == KEY_PRESSED) {
-			key_code = event.key.keyCode;
+		if (GetInput(&event, 0, 0x10) == 0 && event.type == EVENT_KEY && event.data.key.direction == KEY_PRESSED) {
+			key_code = event.data.key.keyCode;
 		} else {
 			continue;
 		}
