@@ -9,16 +9,17 @@
 	extern SDL_Renderer *renderer;
 	extern SDL_Texture *texture;
 #else
-	#include <sdk/os/debug.hpp> //This contains stdint (uint32_t and so on)
-	#include <sdk/os/lcd.hpp>
-	#include <appdef.hpp>
-	extern "C" void getKey(uint32_t *key1, uint32_t *key2);
+	#include <sdk/os/debug.h> //This contains stdint (uint32_t and so on)
+	#include <sdk/os/lcd.h>
+	#include <sdk/os/input.h>
+	#include <appdef.h>
+	//extern "C" void getKey(uint32_t *key1, uint32_t *key2);
 	extern uint16_t *vram;
 	extern uint8_t debugprintline;
 #endif
 
-extern int width;
-extern int height;
+extern unsigned int width;
+extern unsigned int height;
 
 void println(const char str[]                        );
 void println(const char str[],int a                  );
@@ -41,7 +42,7 @@ inline uint16_t color(uint8_t R, uint8_t G, uint8_t B){
 			((B>>3) & 0b0000000000011111));
 }
 inline void setPixel(int x,int y, uint32_t color){
-	if(x>=0 && x < width && y>=0 && y < height){
+	if(x>=0 && (unsigned int)x < width && y>=0 && (unsigned int)y < height){
 	#ifdef PC
 		unsigned char pixels[4]; // { A, B, G, R }
 		//Convert 565 colors to RGBA

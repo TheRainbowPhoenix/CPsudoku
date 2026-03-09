@@ -1,27 +1,27 @@
-#include "calc.hpp"
+#include "calc.h"
 
-extern void main2(); //in file main.cpp
+extern void main2();
 
 //Global variables
 #ifdef PC
 	SDL_Window *win;
 	SDL_Renderer *renderer;
 	SDL_Texture *texture;
-int width;
-int height;
+unsigned int width;
+unsigned int height;
 #else
-extern	uint16_t *vram;
+uint16_t *vram;
 	uint8_t debugprintline = 0;
-extern int width;
-extern int height;
+unsigned int width;
+unsigned int height;
 #endif
 
 
-extern "C"
+
 #ifdef PC
 int  main(){
 #else
-void main(){
+int main(){
 #endif
 	//Initialisation
 	#ifdef PC
@@ -36,20 +36,25 @@ void main(){
 	#else
 		vram = LCD_GetVRAMAddress();
 		LCD_GetSize(&width, &height);
-		LCD_VRAMBackup(); //Stores the VRAM content
+
 	#endif
 
 	//The actual program
 	main2();
+
 
 	//Stopping everything
 	#ifdef PC
 		SDL_DestroyWindow(win);
 		SDL_Quit();
 	#else
-		LCD_VRAMRestore(); //Restores the VRAM content
+
 		LCD_Refresh();
+
+
+
 	#endif
+	return 0;
 }
 
 //println is printf for up to 4 arguments
@@ -64,11 +69,12 @@ void println(const char str[],int a,int b,int c,int d){
 #else
 	Debug_Printf(0,debugprintline++,false,0,str,a,b,c,d);
 	LCD_Refresh();
+
 	if(debugprintline>42) debugprintline=0;
 #endif
 }
 
-//Define LCD_Refresh for the pc (for the calc this is in debug.hpp)
+//Define LCD_Refresh for the pc (for the calc this is in debug.h)
 #ifdef PC
 void LCD_Refresh(){
 	SDL_RenderCopy(renderer, texture, NULL, NULL);
@@ -86,7 +92,6 @@ void delay(uint32_t time){
 }
 
 //Draw a line (bresanham line algorithm)
-#ifdef PC
 void line(int x1, int y1, int x2, int y2, uint16_t color){
 	int8_t ix, iy;
 
@@ -209,7 +214,7 @@ void vline(int x, int y1, int y2, uint16_t color){
 }
 
 void fillScreen(uint16_t color){
-	//#ifdef PC
+	#ifdef PC
 		unsigned char pixels[4]; // { A, B, G, R }
 		//Convert 565 colors to RGBA
 		/*R*/ pixels[3] = (color >> 8) & 0b11111000;
@@ -228,15 +233,15 @@ void fillScreen(uint16_t color){
 		SDL_Rect rect;
 		rect.x = 0; rect.y = 0; rect.w =width; rect.h = height;
 		SDL_UpdateTexture(texture, &rect , (void*)screen, 4*width); //The last number defines the number of bytes per row. ( width * bytePerPixel )
-	//#else
-	//	const uint32_t size = width * height;
-	//	for(uint32_t i = 0; i<size;i++)
-	//		*((uint16_t*)( (uint32_t)vram + ( i*2 )  )) = color;
-	//#endif
+	#else
+		const uint32_t size = width * height;
+		for(uint32_t i = 0; i<size;i++)
+			*((uint16_t*)( (uint32_t)vram + ( i*2 )  )) = color;
+	#endif
 }
 
 //for the pc getKey is written in c++, for the calculator this is written in asm in the file getKey.s
-//#ifdef PC
+#ifdef PC
 
 //Add key to currently pressed keys (used in getKey on the pc)
 inline void setKey(uint32_t *key1, uint32_t *key2, Keys1 key) {

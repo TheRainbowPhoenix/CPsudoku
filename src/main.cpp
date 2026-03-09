@@ -1,8 +1,8 @@
-#include "calc.hpp"
+#include "calc.h"
 
 #ifndef PC
 	APP_NAME("CPsudoku")
-	APP_DESCRIPTION("Sudoku game & solver. To start a new game: Random > 75\% > Set (Use 'Keyboard' to go to the menu)")
+	APP_DESCRIPTION("Sudoku game & solver. To start a new game: Random > 75% > Set (Use 'Keyboard' to go to the menu)")
 	APP_AUTHOR("SnailMath")
 	APP_VERSION("1.0.1")
 #endif
@@ -433,39 +433,41 @@ void main2(){
 	menuselected = 0;
 
 
-	uint32_t key1, key2; 
-	bool pressed = false;
+	struct Input_Event event __attribute__((aligned(4)));
 	while(true){
 		sudoku_draw();
-		getKey(&key1, &key2);
-		if(pressed){
-			if(key1==0&&key2==0)pressed=false;
-		}else{
-			if(key1||key2)pressed=true;
-			if(testKey(key1, key2, KEY_CLEAR))break;
-			//if(testKey(key1, key2, KEY_EXE  ))break;
-			if(testKey(key1, key2, KEY_KEYBOARD  )){mode++;if(mode>=MODES)mode=0;showerror=false;}
+
+		int key_code = 0;
+		if (GetInput(&event, 0, 0x10) == 0 && event.type == EVENT_KEY && event.data.key.direction == KEY_PRESSED) {
+			key_code = event.data.key.keyCode;
+		} else {
+			continue;
+		}
+
+		if(key_code){
+			if(key_code == KEYCODE_POWER_CLEAR) break;
+			if(key_code == KEYCODE_KEYBOARD  ){mode++;if(mode>=MODES)mode=0;showerror=false;}
 			if(mode==MODE_EDIT){
-				if(testKey(key1, key2, KEY_RIGHT))	selected++;
-				if(testKey(key1, key2, KEY_LEFT))	selected--;
-				if(testKey(key1, key2, KEY_DOWN))	selected+=9;
-				if(testKey(key1, key2, KEY_UP))		selected-=9;
+				if(key_code == KEYCODE_RIGHT)	selected++;
+				if(key_code == KEYCODE_LEFT)	selected--;
+				if(key_code == KEYCODE_DOWN)	selected+=9;
+				if(key_code == KEYCODE_UP)		selected-=9;
 				if(selected<0)				selected+=81;
 				if(selected>=81)			selected-=81;
 				if(given[selected]==0){
-					if(testKey(key1, key2, KEY_1))sudoku[selected]^=1<<0;
-					if(testKey(key1, key2, KEY_2))sudoku[selected]^=1<<1;
-					if(testKey(key1, key2, KEY_3))sudoku[selected]^=1<<2;
-					if(testKey(key1, key2, KEY_4))sudoku[selected]^=1<<3;
-					if(testKey(key1, key2, KEY_5))sudoku[selected]^=1<<4;
-					if(testKey(key1, key2, KEY_6))sudoku[selected]^=1<<5;
-					if(testKey(key1, key2, KEY_7))sudoku[selected]^=1<<6;
-					if(testKey(key1, key2, KEY_8))sudoku[selected]^=1<<7;
-					if(testKey(key1, key2, KEY_9))sudoku[selected]^=1<<8;}
+					if(key_code == KEYCODE_1)sudoku[selected]^=1<<0;
+					if(key_code == KEYCODE_2)sudoku[selected]^=1<<1;
+					if(key_code == KEYCODE_3)sudoku[selected]^=1<<2;
+					if(key_code == KEYCODE_4)sudoku[selected]^=1<<3;
+					if(key_code == KEYCODE_5)sudoku[selected]^=1<<4;
+					if(key_code == KEYCODE_6)sudoku[selected]^=1<<5;
+					if(key_code == KEYCODE_7)sudoku[selected]^=1<<6;
+					if(key_code == KEYCODE_8)sudoku[selected]^=1<<7;
+					if(key_code == KEYCODE_9)sudoku[selected]^=1<<8;}
 			}else if(mode==MODE_MENU){
-				if(testKey(key1, key2, KEY_DOWN)) if(menuselected<MENUITEMS-1)	menuselected++;
-				if(testKey(key1, key2, KEY_UP))   if(menuselected>0)		menuselected--;
-				if(testKey(key1, key2, KEY_EXE  )){
+				if(key_code == KEYCODE_DOWN) if(menuselected<MENUITEMS-1)	menuselected++;
+				if(key_code == KEYCODE_UP)   if(menuselected>0)		menuselected--;
+				if(key_code == KEYCODE_EXE  ){
 					if(menuselected==MENU_CLEAR){su_clear();
 					}else if(menuselected==MENU_DEFAULT){su_default();
 					}else if(menuselected==MENU_RANDOM){su_random();
