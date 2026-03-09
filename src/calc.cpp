@@ -319,3 +319,4 @@ void getKey(uint32_t *key1, uint32_t *key2){
 	//Use Ctrl+C to close the program (Only when the program uses getKey)
 	if (state[ SDL_SCANCODE_LCTRL		] && state[ SDL_SCANCODE_C ]) exit(0);
 }
+#endif
